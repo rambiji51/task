@@ -1,0 +1,27 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Docker Login
+      uses: docker/login-action@v3.6.0
+      with:
+        username: ramu341
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag ramu341/nginx-tuts:latest
+    - name: Push Docker Image
+      run: docker push ramu341/nginx-tuts:latest
+
+   
